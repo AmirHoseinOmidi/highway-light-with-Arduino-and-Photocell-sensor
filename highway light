@@ -1,0 +1,47 @@
+#include <Arduino.h>
+#include <Wire.h> 
+#include <LiquidCrystal.h>
+
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // RS, E, D4, D5, D6, D7
+
+int sensor = A1;
+int LED = 13;
+
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(LED, OUTPUT);
+
+  lcd.begin(20, 4);
+
+  lcd.home();
+  lcd.write(0.0);
+  lcd.clear();
+  digitalWrite(LED, HIGH);
+}
+
+
+void loop() {
+  sensor = analogRead(A1);
+  lcd.setCursor(6, 0);
+  lcd.print("Photocell");
+  lcd.setCursor(0,2);
+  lcd.print("light intensity:");
+  lcd.setCursor(17,2);
+  lcd.print(sensor);
+  Serial.println(sensor);
+  
+  if(sensor < 4 ){
+    digitalWrite(LED, HIGH);
+
+  }
+  else{
+    digitalWrite(LED, LOW);
+
+  }
+  delay(500);
+  lcd.clear();
+}
+
